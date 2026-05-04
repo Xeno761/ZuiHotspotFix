@@ -21,7 +21,7 @@ This LSPosed module restores:
 
 | Quick Settings Tile | Tethering Page | Hotspot Settings |
 |--------------------|---------------|---------|
-| ![](assets/qs.png) | ![](assets/settings.png) | ![](assets/settings1.png) |
+| ![](assets/qs.png) | ![](assets/settings.png) | ![](assets/settings2.png) |
 
 ---
 
