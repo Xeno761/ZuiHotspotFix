@@ -1,99 +1,153 @@
-# ZuiHotspotFix
+# ZUI Hotspot Fix
 
-LSPosed / Xposed module to re‑enable the hotspot Quick Settings tile and tethering settings page on Lenovo ZUXOS‑based tablets where hotspot is disabled by the OEM on global ROMs.
+Fix missing **Hotspot toggle** on Lenovo ZUI / ZUXOS devices.
 
-> ⚠️ **Experimental / device‑specific**  
-> Tested only on **Lenovo Idea Tab Pro** running **ZUXOS 1.5.10.060 (Android 16)**, China ROM converted to global manually.  
-> Use at your own risk. Other Lenovo devices / firmware versions may behave differently.
+This LSPosed module restores:
+- Hotspot Quick Settings tile  
+- Tethering / Hotspot settings page  
 
----
-
-## Features
-
-- Forces the **Hotspot** Quick Settings tile to always be available in System UI.
-- Forces Lenovo’s internal tethering support check to always return `true`, which re‑enables the **Hotspot / Tethering** page in Settings (if present in your ROM).
-- No smali or system file editing – all changes are done at runtime via LSPosed hooks.
+⚡ No system modification required — everything works via runtime hooks.
 
 ---
 
-## How it works (technical)
-
-> For developers and power users.
-
-- Hooks `com.android.systemui.qs.tiles.HotspotTile` (or OEM‑specific equivalent) to override the method that decides tile availability, returning `true` unconditionally.
-- Hooks `com.lenovo.common.utils.LenovoUtils.isSupportTether(android.content.Context)` in the **Settings** process and always returns `true`, bypassing OEM checks that hide tethering on some global builds.
-- Uses the classic Xposed API (`de.robv.android.xposed:api:82`) and runs under LSPosed.
-
-No system partitions are modified; everything is runtime‑only via LSPosed.
+![Android](https://img.shields.io/badge/Android-16-green)
+![Root](https://img.shields.io/badge/Root-Required-red)
+![LSPosed](https://img.shields.io/badge/LSPosed-Compatible-blue)
+![Status](https://img.shields.io/badge/Status-Experimental-orange)
 
 ---
 
-## Requirements
+## 📸 Screenshots
 
-- Rooted Android device with **LSPosed** (or compatible) installed.
-- Device/ROM based on **Lenovo ZUXOS** where:
-  - Hotspot hardware is present and works on other regions, but
-  - The hotspot tile and/or tethering page are disabled on global firmware.
-- Android 16 on Lenovo Idea Tab Pro confirmed; other devices/versions are **untested**.
+| Quick Settings Tile | Tethering Page | Working |
+|--------------------|---------------|---------|
+| ![](assets/qs.png) | ![](assets/settings.png) | ![](assets/settings1.png) |
 
 ---
 
-## Installation
+## ⚠️ Experimental / Device-Specific
 
-1. Download the latest APK from the [Releases](https://github.com/Xeno761/ZuiHotspotFix/releases) page.
-2. Install the APK like a normal app.
-3. Open **LSPosed**:
-   - Go to **Modules** and enable **ZuiHotspotFix**.
-   - In **Scopes**, enable at least:
-     - `com.android.systemui`
-     - `com.android.settings`
-4. Reboot your device.
+Tested only on:
 
-After reboot:
+- **Lenovo Idea Tab Pro**
+- **ZUXOS 1.5.10.060 (Android 16)**
+- China ROM manually converted to global  
 
-- The Hotspot Quick Settings tile should appear or become selectable.
-- The Hotspot / Tethering page should show up in Settings (if present in your ROM).
+Other Lenovo devices / firmware versions may behave differently.
+
+Use at your own risk.
 
 ---
 
-## Known limitations
+## ❓ Why this exists
 
-- Developed and tested only on:
-  - **Lenovo Idea Tab Pro**
-  - **ZUXOS 1.5.10.060 (Android 16)**, China ROM manually converted to global.
-- Other Lenovo models / ZUXOS versions may:
-  - Use different class or method names, or
-  - Have additional region checks that this module does not handle.
-- If Lenovo changes SystemUI or Settings significantly in an update, the hooks may stop working or need to be updated.
+Some Lenovo global ROMs disable hotspot functionality even when hardware support exists.  
+This module bypasses those artificial OEM restrictions.
 
 ---
 
-## Troubleshooting
+## 🔧 Features
 
-- **Module doesn’t show in LSPosed**
-  - Make sure the app is installed and `xposedminversion` metadata is present in `AndroidManifest.xml`.
-- **Tile still missing**
-  - Confirm LSPosed scope includes `com.android.systemui`.
-  - Check LSPosed logs for messages from `ZuiHotspotFix` and verify the hook is applied.
-- **Hotspot page still hidden in Settings**
-  - Confirm LSPosed scope includes `com.android.settings`.
-  - Ensure Lenovo has not removed the hotspot UI entirely from your build; this module only bypasses the support check, it cannot recreate fully removed UIs.
+- Forces the **Hotspot Quick Settings tile** to always be available
+- Re-enables **Hotspot / Tethering settings page**
+- Works entirely via **LSPosed hooks (no system modification)**
+- No smali edits or system file patching required
 
 ---
 
-## Safety
+## ⚙️ How it works (Technical)
 
-- No system files or partitions are modified.
-- All changes happen at runtime in the app processes via LSPosed hooks.
-- Uninstalling the module and rebooting restores stock behavior.
+> For developers and power users
 
-That said, this is still a root‑level modification – use at your own risk.
+- Hooks `com.android.systemui.qs.tiles.HotspotTile`  
+  → Overrides availability check → always returns `true`
+
+- Hooks `com.lenovo.common.utils.LenovoUtils.isSupportTether(Context)`  
+  → Forces tethering support → bypasses OEM restriction
+
+- Uses classic Xposed API:
+
+de.robv.android.xposed:api:82
+
+
+✔ Runs fully under LSPosed  
+✔ No system partition changes  
 
 ---
 
-## Credits
+## 📦 Requirements
 
-- LSPosed and Xposed developers for the hooking framework and APIs.
-- Lenovo / ZUXOS for the base firmware.
+- Rooted Android device  
+- LSPosed (or compatible framework)  
+- Lenovo ZUXOS-based ROM where hotspot is disabled artificially  
 
-Module by **@Xeno761**.
+---
+
+## 🚀 Installation
+
+1. Download latest APK from Releases  
+2. Install APK normally  
+3. Open **LSPosed**
+4. Enable module → `ZuiHotspotFix`
+5. Set scopes:
+ - `com.android.systemui`
+ - `com.android.settings`
+6. Reboot device  
+
+---
+
+## ✅ After Installation
+
+- Hotspot tile should appear in Quick Settings  
+- Tethering / Hotspot page should be visible in Settings  
+
+---
+
+## ⚠️ Known Limitations
+
+- Tested only on Lenovo Idea Tab Pro (Android 16)
+- Other devices may:
+- Use different class names  
+- Have additional region locks  
+- Future updates may break hooks  
+
+---
+
+## 🛠️ Troubleshooting
+
+**Module not visible in LSPosed**
+- Check `xposedminversion` in manifest  
+- Reinstall module  
+
+**Hotspot tile missing**
+- Ensure `com.android.systemui` is enabled in scope  
+- Check LSPosed logs  
+
+**Settings page still hidden**
+- Ensure `com.android.settings` is enabled  
+- Some ROMs remove UI entirely (cannot be restored)  
+
+---
+
+## 🔐 Safety
+
+- No system files modified  
+- No partitions touched  
+- Fully runtime-based  
+
+Uninstall + reboot restores stock behavior.
+
+⚠️ Root-level modification — use responsibly  
+
+---
+
+## 🙏 Credits
+
+- LSPosed / Xposed developers  
+- Lenovo / ZUXOS firmware  
+
+---
+
+## 👤 Author
+
+**@Xeno761**
